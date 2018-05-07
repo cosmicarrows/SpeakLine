@@ -10,6 +10,8 @@
 		26F7658B209E74560097A9F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7658A209E74560097A9F0 /* AppDelegate.swift */; };
 		26F7658D209E74590097A9F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26F7658C209E74590097A9F0 /* Assets.xcassets */; };
 		26F76590209E74590097A9F0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26F7658E209E74590097A9F0 /* MainMenu.xib */; };
+		26F7659A209E75340097A9F0 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F76598209E75340097A9F0 /* MainWindowController.swift */; };
+		26F7659B209E75340097A9F0 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26F76599209E75340097A9F0 /* MainWindowController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		26F7658F209E74590097A9F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		26F76591209E74590097A9F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26F76592209E74590097A9F0 /* SpeakLine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SpeakLine.entitlements; sourceTree = "<group>"; };
+		26F76598209E75340097A9F0 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		26F76599209E75340097A9F0 /* MainWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindowController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,8 @@
 				26F7658A209E74560097A9F0 /* AppDelegate.swift */,
 				26F7658C209E74590097A9F0 /* Assets.xcassets */,
 				26F7658E209E74590097A9F0 /* MainMenu.xib */,
+				26F76598209E75340097A9F0 /* MainWindowController.swift */,
+				26F76599209E75340097A9F0 /* MainWindowController.xib */,
 				26F76591209E74590097A9F0 /* Info.plist */,
 				26F76592209E74590097A9F0 /* SpeakLine.entitlements */,
 			);
@@ -119,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26F7658D209E74590097A9F0 /* Assets.xcassets in Resources */,
+				26F7659B209E75340097A9F0 /* MainWindowController.xib in Resources */,
 				26F76590209E74590097A9F0 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,6 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26F7659A209E75340097A9F0 /* MainWindowController.swift in Sources */,
 				26F7658B209E74560097A9F0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
