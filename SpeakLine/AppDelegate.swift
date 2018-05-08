@@ -21,7 +21,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let mainWindowController = MainWindowController()
         
         
-        
         //put the window of the window controller on screen
         mainWindowController.showWindow(self)
         
