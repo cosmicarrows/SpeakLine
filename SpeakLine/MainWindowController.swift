@@ -10,8 +10,9 @@ import Cocoa
 
 
 
-class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate {
+class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate {
     //Now MainWindowController is more powerful by having its own KITT being able to delegate powerful functionality and do less work.  The delegate will do all the heavy lifting and return the results to MainWindowController instances.
+    // MARK: - Properties
     @IBOutlet weak var textField: NSTextField!
     @IBOutlet weak var speakButton: NSButton!
     @IBOutlet weak var stopButton: NSButton!
@@ -22,18 +23,18 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate {
             updateButtons()
         }
     }
-    
+    // MARK: - Overriden Properties
     override var windowNibName: NSNib.Name? {
         return NSNib.Name("MainWindowController")
     }
-    
+    // MARK: - Overidden Methods
     override func windowDidLoad() {
         super.windowDidLoad()
         updateButtons()
         speechSynth?.delegate = self
     }
     
-    // MARK: - Action methods
+    // MARK: - UI methods
     @IBAction func speakIt(sender: NSButton) {
         //Get tuype-in text as a string
         let string = textField.stringValue
@@ -59,13 +60,19 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate {
         }
     }
     
-    // MARK: - NSSpeechSynthesizerDelegate
+    // MARK: - NSSpeechSynthesizerDelegate Methods
     //this functionality is considered more powerful and is made possible due to the speechSynthesizer.delegate = self
     //the delegate is doing the work and reporting that completed work to the MainWindowController instance
     //so kinda like the delegate is providing the signature and its up to us as the developers based on what we do with those parameters inside the function in order  for us to add our own creativity.
     func speechSynthesizer(_ sender: NSSpeechSynthesizer, didFinishSpeaking finishedSpeaking: Bool) {
         //by setting this variable to FALSE, it will fire off the didSet computed property which this variable has both storage and behavior.
         isSpeaking = false
-        print("finishedSpeaking = \(finishedSpeaking)")
     }
+    
+    // MARK: - NSWindowDelegate Methods
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        return !isSpeaking
+    }
+    
+   
 }
