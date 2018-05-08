@@ -15,7 +15,8 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate {
     @IBOutlet weak var textField: NSTextField!
     @IBOutlet weak var speakButton: NSButton!
     @IBOutlet weak var stopButton: NSButton!
-    let speechSynth = NSSpeechSynthesizer()
+    let speechSynth = NSSpeechSynthesizer.init(voice: NSSpeechSynthesizer.VoiceName.init(rawValue: "com.apple.speech.synthesis.voice.Victoria"))
+    
     var isSpeaking: Bool = false {
         didSet {
             updateButtons()
@@ -29,7 +30,7 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate {
     override func windowDidLoad() {
         super.windowDidLoad()
         updateButtons()
-        speechSynth.delegate = self
+        speechSynth?.delegate = self
     }
     
     // MARK: - Action methods
@@ -39,14 +40,13 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate {
         if string.isEmpty {
             print("string from \(textField) is empty")
         } else {
-            speechSynth.startSpeaking(string)
+            speechSynth?.startSpeaking(string)
             isSpeaking = true
         }
     }
     
     @IBAction func stopIt(sender: NSButton) {
-        speechSynth.stopSpeaking()
-        isSpeaking = false
+        speechSynth?.stopSpeaking()
     }
     
     func updateButtons(){
@@ -60,6 +60,9 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate {
     }
     
     // MARK: - NSSpeechSynthesizerDelegate
+    //this functionality is considered more powerful and is made possible due to the speechSynthesizer.delegate = self
+    //the delegate is doing the work and reporting that completed work to the MainWindowController instance
+    //so kinda like the delegate is providing the signature and its up to us as the developers based on what we do with those parameters inside the function in order  for us to add our own creativity.
     func speechSynthesizer(_ sender: NSSpeechSynthesizer, didFinishSpeaking finishedSpeaking: Bool) {
         //by setting this variable to FALSE, it will fire off the didSet computed property which this variable has both storage and behavior.
         isSpeaking = false
