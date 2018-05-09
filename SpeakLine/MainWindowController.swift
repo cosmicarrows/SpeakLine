@@ -17,7 +17,6 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     @IBOutlet weak var speakButton: NSButton!
     @IBOutlet weak var stopButton: NSButton!
     let speechSynth = NSSpeechSynthesizer.init(voice: NSSpeechSynthesizer.VoiceName.init(rawValue: "com.apple.speech.synthesis.voice.Victoria"))
-    
     var isSpeaking: Bool = false {
         didSet {
             updateButtons()
@@ -32,6 +31,7 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         super.windowDidLoad()
         updateButtons()
         speechSynth?.delegate = self
+        window?.delegate = self
     }
     
     // MARK: - UI methods
@@ -67,12 +67,20 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     func speechSynthesizer(_ sender: NSSpeechSynthesizer, didFinishSpeaking finishedSpeaking: Bool) {
         //by setting this variable to FALSE, it will fire off the didSet computed property which this variable has both storage and behavior.
         isSpeaking = false
+        let siriKeys = "Siri where are my keys?"
+        if textField.stringValue == siriKeys {
+            print("Your keys are waiting for you downstairs in the foyer")
+        }
+        
     }
     
     // MARK: - NSWindowDelegate Methods
     func windowShouldClose(_ sender: NSWindow) -> Bool {
-        return !isSpeaking
+        if isSpeaking == false {
+            return true
+        } else {
+            print("You can't close me!")
+            return false
+        }
     }
-    
-   
 }
