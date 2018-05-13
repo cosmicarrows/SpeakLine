@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import CoreFoundation
 
 
 
@@ -16,12 +17,20 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     @IBOutlet weak var textField: NSTextField!
     @IBOutlet weak var speakButton: NSButton!
     @IBOutlet weak var stopButton: NSButton!
+    
     let speechSynth = NSSpeechSynthesizer.init(voice: NSSpeechSynthesizer.VoiceName.init(rawValue: "com.apple.speech.synthesis.voice.Victoria"))
+    
+    
     var isSpeaking: Bool = false {
         didSet {
             updateButtons()
         }
     }
+    
+    
+    let voices = NSSpeechSynthesizer.availableVoices as [NSString]
+    
+    
     // MARK: - Overriden Properties
     override var windowNibName: NSNib.Name? {
         return NSNib.Name("MainWindowController")
@@ -29,9 +38,20 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     // MARK: - Overidden Methods
     override func windowDidLoad() {
         super.windowDidLoad()
+        
         updateButtons()
+        
         speechSynth?.delegate = self
+        
         window?.delegate = self
+        
+        let voices = NSSpeechSynthesizer.availableVoices.map { $0.rawValue }
+        
+        for voice in voices {
+            
+            print(voiceNameForIdentifier(identifier: voice)!)
+        }
+       
     }
     
     // MARK: - UI methods
@@ -82,5 +102,14 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
             print("You can't close me!")
             return false
         }
+    }
+    
+    //Now we're creating a custom function that we will call...
+    func voiceNameForIdentifier(identifier: String) -> String? {
+        //class method below....we're going to use this function and pass in the string to the function which needs to be a backwards domain assigned to a voice
+        //it returns a dictionary of the following type [NSSpeechSynthesizer.VoiceAttributeKey : Any]...so it'll be names for the key and the values consist of the backward domain strings
+        let attributes = NSSpeechSynthesizer.attributes(forVoice: NSSpeechSynthesizer.VoiceName.init(rawValue: identifier))
+        //here below, we will return the needed string that the function asks for....it is the declared constant
+        return attributes[NSSpeechSynthesizer.VoiceAttributeKey.name] as? String
     }
 }
