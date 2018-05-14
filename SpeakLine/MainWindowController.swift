@@ -11,12 +11,13 @@ import CoreFoundation
 
 
 
-class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate {
+class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate {
     //Now MainWindowController is more powerful by having its own KITT being able to delegate powerful functionality and do less work.  The delegate will do all the heavy lifting and return the results to MainWindowController instances.
     // MARK: - Properties
     @IBOutlet weak var textField: NSTextField!
     @IBOutlet weak var speakButton: NSButton!
     @IBOutlet weak var stopButton: NSButton!
+    @IBOutlet weak var tableView: NSTableView!
     
     let speechSynth = NSSpeechSynthesizer.init(voice: NSSpeechSynthesizer.VoiceName.init(rawValue: "com.apple.speech.synthesis.voice.Victoria"))
     
@@ -29,6 +30,34 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     
     
     let voices = NSSpeechSynthesizer.availableVoices as [NSString]
+    
+    // MARK: - NSTableViewDataSource
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return voices.count
+    }
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        let voice = voices[row]
+        let voiceName = voiceNameForIdentifier(identifier: voice as String)
+        return voiceName
+        
+    }
+    
+    //MARK: - NSTableViewDelegate
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        
+        let row = tableView.selectedRow
+        
+        //Set the voice back to the default if the user has deselected all rows
+        if row == -1 {
+            speechSynth?.setVoice(nil)
+            return
+        }
+        
+        let voice = voices[row]
+        
+        speechSynth?.setVoice(NSSpeechSynthesizer.VoiceName(rawValue: NSSpeechSynthesizer.VoiceName.RawValue(voice)))
+    }
     
     
     // MARK: - Overriden Properties
@@ -50,6 +79,15 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         for voice in voices {
             
             print(voiceNameForIdentifier(identifier: voice)!)
+        }
+        
+        let defaultVoice = NSSpeechSynthesizer.defaultVoice
+        
+        if let defaultRow = voices.index(of: defaultVoice.rawValue) {
+            
+            let indices = NSIndexSet(index: defaultRow)
+            tableView.selectRowIndexes(indices as IndexSet, byExtendingSelection: false)
+            tableView.scrollRowToVisible(defaultRow)
         }
        
     }
